@@ -1,48 +1,51 @@
 # elasmo-mba
 English Channel elasmobranch diversity paper
 
+1. 
 ```bash
-### SET UP PROJ ###
-# download pipeline
+# download repo
+git clone https://github.com/genner-lab/elasmo-mba.git
+cd elasmo-mba
+Rscript -e "renv::restore()"
+```
+
+2. Install system software as instructed at [github.com/genner-lab/meta-fish-pipe](https://github.com/genner-lab/meta-fish-pipe).
+
+```bash
+# download and install pipeline
 git clone https://github.com/genner-lab/meta-fish-pipe.git
 cd meta-fish-pipe
 git checkout v1.0
 Rscript -e "renv::restore()"
 ```
 
-```r
-### RETRIEVE REFERENCE LIBRARIES ###
-
-# grab the latest reference library (run in R)
-library("here")
-library("tidyverse")
-library("ape")
-# load remote references and scripts (requires internet connection)
-source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/references-load-remote.R")
-source("https://raw.githubusercontent.com/genner-lab/meta-fish-lib/main/scripts/references-clean.R")
-# read in special seqs
-locals <- read_csv(file="assets/local-12s.csv")
-# write out combined
-reflib.orig %>% bind_rows(locals) %>% write_csv(file=here("meta-fish-lib/assets/meta-fish-lib-v243.csv"))
+```bash
+# download the custom uk fish reference library
+scripts/download-reference-library.R
 ```
 
-```
+```bash
 # add refseq
 git clone https://github.com/genner-lab/refseq-reflib.git
 cd refseq-reflib
+git checkout v1.0
+Rscript -e "renv::restore()"
 mkdir temp references
 curl ftp://ftp.ncbi.nlm.nih.gov/refseq/release/RELEASE_NUMBER
 scripts/download.sh
 scripts/extract.R -p elas02
 scripts/annotate.R -s 42 -p elas02
+rm temp/duckdb
+```
 
-
-
+```bash
 # add all the reflibs etc
 # assets/contaminants-exclude-may2021.csv
 # assets/meta-fish-lib-v243.csv
-cp ../refseq-reflib/references/refseq206-annotated-elas02.csv assets/refseq206-annotated-elas02.csv
+cp refseq-reflib/references/refseq206-annotated-elas02.csv meta-fish-pipe/assets/refseq206-annotated-elas02.csv
+```
 
+````
 # just once
 scripts/session-info.sh  -r assets/refseq206-annotated-elas02.csv -c assets/meta-fish-lib-v243.csv
 
