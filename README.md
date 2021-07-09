@@ -13,7 +13,7 @@ cd elasmo-mba
 Rscript -e "renv::restore()"
 ```
 
-2. Download the bioinformatics module (v1.0). Be sure to read instructions and install all system software as instructed at [github.com/genner-lab/meta-fish-pipe](https://github.com/genner-lab/meta-fish-pipe).
+2. Download the meta-fish-pipe (v1.0) bioinformatics module. Be sure to read instructions and install all system software as instructed at [github.com/genner-lab/meta-fish-pipe](https://github.com/genner-lab/meta-fish-pipe).
 
 ```bash
 # download and install pipeline
@@ -48,7 +48,7 @@ rm temp/duckdb
 cd ..
 ```
 
-5. Copy sample files into the meta-fish-lib module.
+5. Copy sample files into the meta-fish-pipe module.
 
 ```bash
 # copy across files to bioinformatics pipeline
@@ -124,13 +124,14 @@ scripts/generate-stats.sh -p elas02 -l lib2 -t 8
 scripts/generate-stats.sh -p elas02 -l lib3 -t 8
 ```
 
-13. Run the taxonomic assignement step and combine results from each library 
+13. Run the taxonomic assignement steps and combine results from each library 
 
 ```bash
 # run taxonomic assignment
 scripts/taxonomic-assignment.sh -t 8 -p elas02
 # assemble results
 scripts/assemble-results.R -c assets/contaminants-exclude.csv
+cd ..
 ```
 
 14. Run the statistical analyses (this step should preferably be run line-by-line in the preferred R console to assess results in turn).  
