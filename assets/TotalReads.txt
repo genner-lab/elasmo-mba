@@ -1,0 +1,14 @@
+Species	TotalReads
+spiny dogfish (Squalus acanthias)	922507
+bull huss (Scyliorhinus stellaris)	627547
+lesser spotted catshark (Scyliorhinus canicula)	5109711
+undulate ray (Raja undulata)	34254
+spotted ray (Raja montagui)	15907891
+small-eyed ray (Raja microocellata)	2269319
+thornback ray (Raja clavata)	1852230
+blonde ray (Raja brachyura)	8657938
+starry smoothhound (Mustelus asterias)	3023966
+cuckoo ray (Leucoraja naevus)	92391
+porbeagle shark (Lamna nasus)	112405
+tope shark (Galeorhinus galeus)	4404
+thresher shark (Alopias vulpinus)	1344
