@@ -82,14 +82,14 @@ scripts/prepare-libraries.sh -p elas02 -l lib3
 
 ```bash
 # make symlinks LIB1
-ln -s -r /media/1TB/rc16041/Projects-temp-local-only/seadna-temp-local-only/fastq/SeaDNA_Elas02_Lib1_R1.fastq.gz temp/processing/elas02-lib1/fastq/R1.fastq.gz
-ln -s -r /media/1TB/rc16041/Projects-temp-local-only/seadna-temp-local-only/fastq/SeaDNA_Elas02_Lib1_R2.fastq.gz temp/processing/elas02-lib1/fastq/R2.fastq.gz
+ln -s -r path/to/file/SeaDNA_Elas02_Lib1_R1.fastq.gz temp/processing/elas02-lib1/fastq/R1.fastq.gz
+ln -s -r path/to/file/SeaDNA_Elas02_Lib1_R2.fastq.gz temp/processing/elas02-lib1/fastq/R2.fastq.gz
 # make symlinks LIB2
-ln -s -r /media/1TB/rc16041/Projects-temp-local-only/seadna-temp-local-only/fastq/SeaDNA_Elas02_Lib2_R1.fastq.gz temp/processing/elas02-lib2/fastq/R1.fastq.gz
-ln -s -r /media/1TB/rc16041/Projects-temp-local-only/seadna-temp-local-only/fastq/SeaDNA_Elas02_Lib2_R2.fastq.gz temp/processing/elas02-lib2/fastq/R2.fastq.gz
+ln -s -r path/to/file/SeaDNA_Elas02_Lib2_R1.fastq.gz temp/processing/elas02-lib2/fastq/R1.fastq.gz
+ln -s -r path/to/file/SeaDNA_Elas02_Lib2_R2.fastq.gz temp/processing/elas02-lib2/fastq/R2.fastq.gz
 # make symlinks LIB3
-ln -s -r /media/1TB/rc16041/Projects-temp-local-only/seadna-temp-local-only/fastq/SeaDNA_Elas02_Lib3_R1.fastq.gz temp/processing/elas02-lib3/fastq/R1.fastq.gz
-ln -s -r /media/1TB/rc16041/Projects-temp-local-only/seadna-temp-local-only/fastq/SeaDNA_Elas02_Lib3_R2.fastq.gz temp/processing/elas02-lib3/fastq/R2.fastq.gz
+ln -s -r path/to/file/SeaDNA_Elas02_Lib3_R1.fastq.gz temp/processing/elas02-lib3/fastq/R1.fastq.gz
+ln -s -r path/to/file/SeaDNA_Elas02_Lib3_R2.fastq.gz temp/processing/elas02-lib3/fastq/R2.fastq.gz
 ```
 
 9. Generate barcode files for each library.
