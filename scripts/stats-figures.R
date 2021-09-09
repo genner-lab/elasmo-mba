@@ -109,7 +109,6 @@ Hell_Depth = Elasmo_Hell$Depth
 Hell_Depth_sp = multipatt(Hell_Abund, Hell_Depth, func = "IndVal", duleg=TRUE, control = how(nperm=9999))
 Hell_Depth_sp
 
-Hell_Abund = Elasmo_Hell[,6:ncol(Elasmo_Hell)]
 Hell_Locality = Elasmo_Hell$localityID
 Hell_Locality_sp = multipatt(Hell_Abund, Hell_Locality, func = "IndVal", duleg=TRUE,  control = how(nperm=9999))
 Hell_Locality_sp
@@ -209,12 +208,6 @@ summary (Reg1)
 Reg2 <- lm (TotalReads_4thRoot ~ All_PropHaulsPresent, data = eDNAvsTrawls)
 summary (Reg2)
 
-Reg3 <- lm (TotalReads_4thRoot ~ Yr2017_CPUE4th, data = eDNAvsTrawls)
-summary (Reg3)
-
-Reg4 <- lm (TotalReads_4thRoot ~ Yr2017_PropHauls, data = eDNAvsTrawls)
-summary (Reg4)
-
 #Now we build the plots
 
 set_theme(
@@ -230,22 +223,23 @@ set_theme(
 Reg1ModelPlot <- ggplot(eDNAvsTrawls, aes(y=TotalReads_4thRoot, x=All_CPUE4th)) +
   geom_point(color="black")+
   geom_smooth(method=lm, color="black", fill="steelblue") + ylim (0,100)
-Reg1_plot <- Reg1ModelPlot + labs (x="CPUE (individuals per hour, 1911-2017, 4th root)", y="eDNA reads (4th root transformed)") + ggtitle(" ")
+Reg1_plot <- Reg1ModelPlot + labs (x="CPUE 1911-2017 (individuals per hour, 4th root)", y="eDNA reads (4th root)") + ggtitle(" ")
 Reg1_plot
 
 Reg2ModelPlot <- ggplot(eDNAvsTrawls, aes(y=TotalReads_4thRoot, x=All_PropHaulsPresent)) +
   geom_point(color="black")+
-  geom_smooth(method=lm, color="black", fill="steelblue") + ylim (0,100)
-Reg2_plot <- Reg2ModelPlot + labs (x="Frequency of occurrence in hauls, 1911-2017", y="eDNA reads (4th root transformed)") + ggtitle(" ")
+  geom_smooth(method=lm, color="black", fill="steelblue") + ylim (0,100) + xlim (0,80)
+Reg2_plot <- Reg2ModelPlot + labs (x="Frequency of occurrence 1911-2017 (% hauls present)", y="eDNA reads (4th root)") + ggtitle(" ")
 Reg2_plot
 
+#10x5
 
 figure <- ggarrange(Reg1_plot, Reg2_plot, 
-                    labels = c("A", "B"),
+                    labels = c(" ", " "),
                     ncol = 2, nrow = 1)
 figure
 
-#Now just a barchart of the species names
+#Now just a barchart of the species names (save at 9 x 5)
 #Based on pre-prepared file with the total reads, and full species names.
 
 TotalReads <- read.table(here("assets/TotalReads.txt"), header=TRUE, fill=TRUE, sep="\t", check.names=FALSE)

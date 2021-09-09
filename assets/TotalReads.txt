@@ -1,7 +1,7 @@
 Species	TotalReads
 spiny dogfish (Squalus acanthias)	922507
-bull huss (Scyliorhinus stellaris)	627547
-lesser spotted catshark (Scyliorhinus canicula)	5109711
+nursehound (Scyliorhinus stellaris)	627547
+Small spotted catshark (Scyliorhinus canicula)	5109711
 undulate ray (Raja undulata)	34254
 spotted ray (Raja montagui)	15907891
 small-eyed ray (Raja microocellata)	2269319
