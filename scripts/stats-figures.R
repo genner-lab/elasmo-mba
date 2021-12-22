@@ -75,21 +75,21 @@ ggarrange(SpaceWisc, SpaceHell,
           labels = c("a", "b"),
           ncol = 1, nrow = 2, legend = "right",   common.legend = TRUE)
 
-#Statistically test for differences among localities, depths and months, using Permanova
+##Statistically test for differences among localities, depths and months, using Permanova
 
-PCOA_Elasmo_Wisc_Data$Month <- as.factor(PCOA_Elasmo_Wisc_Data$Month)
-PCOA_Elasmo_Hell_Data$Month <-as.factor(PCOA_Elasmo_Hell_Data$Month)
+Elasmo_Wisc$Month <- as.factor(Elasmo_Wisc$Month)
+Elasmo_Hell$Month <-as.factor(Elasmo_Hell$Month)
 
-SpaceTest_Wisc <- adonis2(Elasmo_Wisc.D ~ localityID*Depth*Month, data = Elasmo_Wisc)
+SpaceTest_Wisc <- adonis2(Elasmo_Wisc.D ~ localityID*Depth*Month, permutations = 10000,data = Elasmo_Wisc)
 SpaceTest_Wisc
 
-SpaceTest_Hell <- adonis2(Elasmo_Hell.D ~ localityID*Depth*Month, data = Elasmo_Wisc)
+SpaceTest_Hell <- adonis2(Elasmo_Hell.D ~ localityID*Depth*Month, permutations = 10000,data = Elasmo_Wisc)
 SpaceTest_Hell
 
 #Pairwise test of differences among site
 
-pairwise.adonis(Elasmo_Wisc[,6:18],Elasmo_Wisc$localityID,sim.method = "jaccard")
-pairwise.adonis(Elasmo_Hell[,6:18],Elasmo_Hell$localityID,sim.method = "jaccard")
+pairwise.adonis(Elasmo_Wisc[,6:18],Elasmo_Wisc$localityID,sim.method = "jaccard", perm = 100000)
+pairwise.adonis(Elasmo_Hell[,6:18],Elasmo_Hell$localityID,sim.method = "jaccard", perm = 100000)
 
 #Exploring indicator species of each habitat and depth
 
@@ -196,16 +196,17 @@ print(plot(R_mon_viz), pages = 1)
 print(plot(R_mon_viz, allTerms = T), pages = 1) 
 
 #Correlating trawl catches and eDNA results.
+
 #Based on pre-prepared file with total eDNA reads (4th rooted), mean CPUE in hauls (4th rooted) and proportion of hauls present, for key periods of time
 
-eDNAvsTrawls <- read.table(here("assets/eDNAvsTrawls.txt"), header=TRUE, fill=TRUE, sep="\t", check.names=FALSE)
+eDNAvsTrawls <- read.table("eDNAvsTrawls.txt", header=TRUE, fill=TRUE, sep="\t", check.names=FALSE)
 
 #Build the linear models, including the statistical significance of the associations
 
-Reg1 <- lm (TotalReads_4thRoot ~ All_CPUE4th, data = eDNAvsTrawls)
+Reg1 <- lm (Reads_4th ~ CPUE_4th, data = eDNAvsTrawls)
 summary (Reg1)
 
-Reg2 <- lm (TotalReads_4thRoot ~ All_PropHaulsPresent, data = eDNAvsTrawls)
+Reg2 <- lm (Reads_4th ~ FOO, data = eDNAvsTrawls)
 summary (Reg2)
 
 #Now we build the plots
@@ -220,16 +221,16 @@ set_theme(
   axis.textcolor = "black", 
   base = theme_classic(base_size = 8))
 
-Reg1ModelPlot <- ggplot(eDNAvsTrawls, aes(y=TotalReads_4thRoot, x=All_CPUE4th)) +
+Reg1ModelPlot <- ggplot(eDNAvsTrawls, aes(y=Reads_4th, x=CPUE_4th)) +
   geom_point(color="black")+
   geom_smooth(method=lm, color="black", fill="steelblue") + ylim (0,100)
-Reg1_plot <- Reg1ModelPlot + labs (x="CPUE 1911-2017 (individuals per hour, 4th root)", y="eDNA reads (4th root)") + ggtitle(" ")
+Reg1_plot <- Reg1ModelPlot + labs (x="CPUE 1914-2018 (individuals per hour, 4th root)", y="eDNA reads (4th root)") + ggtitle(" ")
 Reg1_plot
 
-Reg2ModelPlot <- ggplot(eDNAvsTrawls, aes(y=TotalReads_4thRoot, x=All_PropHaulsPresent)) +
+Reg2ModelPlot <- ggplot(eDNAvsTrawls, aes(y=Reads_4th, x=FOO)) +
   geom_point(color="black")+
   geom_smooth(method=lm, color="black", fill="steelblue") + ylim (0,100) + xlim (0,80)
-Reg2_plot <- Reg2ModelPlot + labs (x="Frequency of occurrence 1911-2017 (% hauls present)", y="eDNA reads (4th root)") + ggtitle(" ")
+Reg2_plot <- Reg2ModelPlot + labs (x="Frequency of occurrence 1914-2018 (% hauls present)", y="eDNA reads (4th root)") + ggtitle(" ")
 Reg2_plot
 
 #10x5
@@ -261,18 +262,38 @@ p <- p +labs (x="Species", y="eDNA reads (Total in all samples)")
 p
 
 #Now to made the species accumulation per sample images
+
 #First the eDNA accumulation (axes set so these images can combined outside R later)
 
 eDNA_raw <- specaccum(Elasmo_zeros[,6:18], "random")
 summary(eDNA_raw)
-plot(eDNA_raw, ci.type="poly", col="black", ci.lty=0, ci.col="darkorange", las=1, xlim=c(1, 210), ylim=c(0,30),bg = "transparent")
+
+par(bg=NA)
+plot(eDNA_raw, ci.type="poly", col="black", ci.lty=0, ci.col="orange", las=1, xlim=c(1, 1050), ylim=c(0,30))
+dev.copy(png,'eDNA.png',width=800, height=800)
+dev.off()
 
 #Second the trawl accumulation data for 2017, to align the timescale with eDNA sampling (axes set to above)
-SpeciesRaw <- read.table(here("assets/Trawls_2017.txt"), header=TRUE, fill=TRUE, sep="\t", check.names=FALSE)
 
+SpeciesRaw <- read.table("Trawls_2017.txt", header=TRUE, fill=TRUE, sep="\t", check.names=FALSE)
 trawls_raw <- specaccum(SpeciesRaw, "random")
 summary(trawls_raw)
-plot(trawls_raw, ci.type="poly", col="black", ci.lty=0, ci.col="lightblue", las=1, xlim=c(1, 210), ylim=c(0,30), bg = "transparent")
+
+par(bg=NA)
+plot(trawls_raw, ci.type="poly", col="black", ci.lty=0, ci.col=" cornflowerblue", las=1, xlim=c(1, 1050), ylim=c(0,30), bg = "transparent")
+dev.copy(png,'trawls_recent22.png',width=800, height=800)
+dev.off()
+
+#Third the trawl accumulation data for 1914-2017, (axes set to above)
+
+SpeciesRaw2 <- read.table("1037_Trawls.txt", header=TRUE, fill=TRUE, sep="\t", check.names=FALSE)
+trawls_raw2 <- specaccum(SpeciesRaw2, "random")
+summary(trawls_raw2)
+
+par(bg=NA)
+plot(trawls_raw2, ci.type="poly", col="black", ci.lty=0, ci.col="forestgreen", las=1, xlim=c(1, 1050), ylim=c(0,30))
+dev.copy(png,'trawls_all1037.png',width=800, height=800)
+dev.off()
 
 #Finally, a heatmap of read abundance, based on hellinger transformed data
 
