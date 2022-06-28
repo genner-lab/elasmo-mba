@@ -4,7 +4,7 @@
 
 #### Code and data for:
 
-Liu, Z., Collins, R.A., Baillie, C., Rainbird, S., Griffiths, A.M., Sims, D.W., Mariani, S. & Genner, M.J. (2021). Environmental DNA captures elasmobranch diversity in a temperate marine ecosystem. _Insert Journal_. [https://doi.org/xxx](https://doi.org/xxx).
+Liu, Z., Collins, R.A., Baillie, C., Rainbird, S., Griffiths, A.M., Sims, D.W., Mariani, S. & Genner, M.J. (2022). Environmental DNA captures elasmobranch diversity in a temperate marine ecosystem. Environmental DNA. https://doi.org/10.1002/edn3.294
 
 ---
 
